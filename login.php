@@ -20,10 +20,42 @@ $hoy = date("Y-m-d");
 
 try {
     $database = new Database();
-    $database->query("SELECT id,'' as ExpToken FROM usuarios WHERE NUMERO_RUC= :ruc AND CLAVE= :clave");
+    $database->query("SELECT *,'' as ExpToken FROM usuarios WHERE NUMERO_RUC= :ruc AND CLAVE= :clave");
     $database->bind('ruc', $request->ruc);
     $database->bind('clave', $request->CLAVE);
     $rows = $database->single();
+
+    $id = $rows['id'];
+    $database->query("SELECT * FROM menu_usuario where id_usuario = :id");
+    $database->bind(':id', $id);
+    $menus = $database->resultset();
+    if (count($menus) <= 0) {
+        $database->query("INSERT INTO menu_usuario VALUES (null,1," . $id . ",'1')");
+        $Hecho = $database->execute();
+        $database->query("INSERT INTO menu_usuario VALUES (null,2," . $id . ",'1')");
+        $Hecho = $database->execute();
+        $database->query("INSERT INTO menu_usuario VALUES (null,3," . $id . ",'1')");
+        $Hecho = $database->execute();
+        $database->query("INSERT INTO menu_usuario VALUES (null,4," . $id . ",'1')");
+        $Hecho = $database->execute();
+        $database->query("INSERT INTO menu_usuario VALUES (null,5," . $id . ",'1')");
+        $Hecho = $database->execute();
+        $database->query("INSERT INTO menu_usuario VALUES (null,6," . $id . ",'1')");
+        $Hecho = $database->execute();
+        $database->query("INSERT INTO menu_usuario VALUES (null,7," . $id . ",'1')");
+        $Hecho = $database->execute();
+        $database->query("INSERT INTO menu_usuario VALUES (null,8," . $id . ",'1')");
+        $Hecho = $database->execute();
+        $database->query("INSERT INTO menu_usuario VALUES (null,9," . $id . ",'2')");
+        $Hecho = $database->execute();
+        $database->query("INSERT INTO menu_usuario VALUES (null,10," . $id . ",'1')");
+        $Hecho = $database->execute();
+        $database->query("INSERT INTO menu_usuario VALUES (null,11," . $id . ",'1')");
+        $Hecho = $database->execute();
+        $database->query("INSERT INTO menu_usuario VALUES (null,12," . $id . ",'1')");
+        $Hecho = $database->execute();
+    }
+
     $database->closeConnection();
 
     if ($rows) {
