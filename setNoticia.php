@@ -24,7 +24,10 @@ try {
                             IMAGEN_LINK = :IMAGEN_LINK,
                             FUENTE = :FUENTE,
                             FUENTE_LINK = :FUENTE_LINK,
-                            FECHA_CREACION = :FECHA_CREACION
+                            FECHA_CREACION = :FECHA_CREACION,
+                            TEXTO_BOTON1 = :TEXTO_BOTON1,
+                            TEXTO_BOTON2 = :TEXTO_BOTON2,
+                            LINK_BOTON2 = :LINK_BOTON2
                             WHERE id = :id');
         $database->bind(':id', $request->id);
         $database->bind(':TITULO', $request->TITULO);
@@ -33,11 +36,14 @@ try {
         $database->bind(':FUENTE', $request->FUENTE);
         $database->bind(':FUENTE_LINK', $request->FUENTE_LINK);
         $database->bind(':FECHA_CREACION', $hoy);
+        $database->bind(':TEXTO_BOTON1', $request->TEXTO_BOTON1);
+        $database->bind(':TEXTO_BOTON2', $request->TEXTO_BOTON2);
+        $database->bind(':LINK_BOTON2', $request->LINK_BOTON2);
 
     } else {
 
         $database = new Database();
-        $database->query("INSERT INTO noticias (id,TITULO,CUERPO,IMAGEN_LINK,FUENTE,FUENTE_LINK,FECHA_CREACION) VALUES (:id,:TITULO,:CUERPO,:IMAGEN_LINK,:FUENTE,:FUENTE_LINK,:FECHA_CREACION);");
+        $database->query("INSERT INTO noticias (id,TITULO,CUERPO,IMAGEN_LINK,FUENTE,FUENTE_LINK,FECHA_CREACION,TEXTO_BOTON1,TEXTO_BOTON2,LINK_BOTON2) VALUES (:id,:TITULO,:CUERPO,:IMAGEN_LINK,:FUENTE,:FUENTE_LINK,:FECHA_CREACION,:TEXTO_BOTON1,:TEXTO_BOTON2,:LINK_BOTON2);");
 
         $database->bind(':id', null);
         $database->bind(':TITULO', $request->TITULO);
@@ -46,6 +52,9 @@ try {
         $database->bind(':FUENTE', $request->FUENTE);
         $database->bind(':FUENTE_LINK', $request->FUENTE_LINK);
         $database->bind(':FECHA_CREACION', $hoy);
+        $database->bind(':TEXTO_BOTON1', $request->TEXTO_BOTON1);
+        $database->bind(':TEXTO_BOTON2', $request->TEXTO_BOTON2);
+        $database->bind(':LINK_BOTON2', $request->LINK_BOTON2);
     }
 
     $Hecho = $database->execute();
