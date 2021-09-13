@@ -33,7 +33,7 @@ try {
         $database->closeConnection();
 
         if ($Hecho == "1" ) {
-            $respuesta = json_encode( array('err' => false, 'mensaje' => 'Sugenrencia enviada con éxito'),JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            $respuesta = json_encode( array('err' => false, 'mensaje' => 'Sugerencia enviada con éxito'),JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         } else{
             $respuesta = json_encode( array('err' => true, 'mensaje' => $Hecho),JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         }
