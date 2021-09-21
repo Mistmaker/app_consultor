@@ -142,7 +142,7 @@ try {
             $Hecho = $database->execute();
             $database->query("INSERT INTO menu_usuario VALUES (null,8," . $id . ",'1')");
             $Hecho = $database->execute();
-            $database->query("INSERT INTO menu_usuario VALUES (null,9," . $id . ",'2')");
+            $database->query("INSERT INTO menu_usuario VALUES (null,9," . $id . ",'3')");
             $Hecho = $database->execute();
             $database->query("INSERT INTO menu_usuario VALUES (null,10," . $id . ",'1')");
             $Hecho = $database->execute();

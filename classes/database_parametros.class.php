@@ -1,11 +1,11 @@
 <?php
 
-	class Database{
+	class DatabaseParam{
 
 	    private $host      = '127.0.0.1';
 	    private $user      = 'soporte';
 	    private $pass      = 'soporte';
-	    private $dbname    = 'tareas';
+	    private $dbname    = 'parametros_legales';
 	    private $dbh;
 	    private $error;
 	    private $stmt;
