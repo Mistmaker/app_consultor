@@ -21,8 +21,7 @@ $request = json_decode($postdata);
 
 try {
 
-    if ( isset($request->id_categoria) ) {
-
+    if ( isset($request->id_categoria) && !isset($request->puntaje) ) {
         $database = new Database();
         $database->query('INSERT INTO resultados_evaluacion (id_categoria, id_usuario, fecha_resultado, puntaje) 
         VALUES (:id_categoria, :id_usuario, :fecha_resultado, :puntaje)');
@@ -30,12 +29,39 @@ try {
         $database->bind(':id_categoria', $request->id_categoria);
         $database->bind(':id_usuario', $request->id_usuario);
         $database->bind(':fecha_resultado', $hoy);
-        $database->bind(':puntaje', $request->puntaje);
+        $database->bind(':puntaje', 0);
 
         $Hecho = $database->execute();
 
         //Obteniendo el id insertado
         $id = $database->lastInsertId();
+
+        $respuesta = json_encode( array('err' => false, 'id' => $id),JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+    elseif ( isset($request->id_categoria) && isset($request->puntaje) ) {
+
+        $database = new Database();
+        $database->query('UPDATE resultados_evaluacion SET puntaje = :puntaje WHERE id_resultado = :id_resultado');
+        $database->bind(':puntaje', $request->puntaje);
+        $database->bind(':id_resultado', $request->id_resultado);
+
+        $Hecho = $database->execute();
+
+        //Obteniendo el id insertado
+        $id = $request->id_resultado;
+        // $database = new Database();
+        // $database->query('INSERT INTO resultados_evaluacion (id_categoria, id_usuario, fecha_resultado, puntaje) 
+        // VALUES (:id_categoria, :id_usuario, :fecha_resultado, :puntaje)');
+
+        // $database->bind(':id_categoria', $request->id_categoria);
+        // $database->bind(':id_usuario', $request->id_usuario);
+        // $database->bind(':fecha_resultado', $hoy);
+        // $database->bind(':puntaje', $request->puntaje);
+
+        // $Hecho = $database->execute();
+
+        // //Obteniendo el id insertado
+        // $id = $database->lastInsertId();
 
         // Guardando respuestas erroneas
 
@@ -79,13 +105,13 @@ try {
             // $mail->SMTPSecure = "tls";
             // $mail->Port       = 587;
             // $mail->Host       = "smtp.gmail.com";
-            $mail->Username   = "mistmaker21@gmail.com";
-            $mail->Password   = "Megamanx-10";
+            $mail->Username   = "app.elconsultor@gmail.com";
+            $mail->Password   = "consultor2021";
 
             $mail->IsHTML(true);
             $mail->AddAddress($correoUsuario, $nombreUsuario);
-            $mail->SetFrom("mistmaker21@gmail.com", "El consultor");
-            $mail->AddReplyTo("mistmaker21@gmail.com", "El consultor");
+            $mail->SetFrom("app.elconsultor@gmail.com", "El consultor");
+            $mail->AddReplyTo("app.elconsultor@gmail.com", "El consultor");
             // $mail->AddCC("cc-recipient-email", "cc-recipient-name");
             $mail->Subject = "Resultado evaluación";
             $content = "El resultado de la evaluación <b>$request->tituloEvaluacion</b> realizada el $hoy es de: <b>$request->puntaje/$request->cantidadPreguntas</b>

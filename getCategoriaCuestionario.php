@@ -9,7 +9,7 @@
     try {
         $database = new Database();
 
-        $database->query("SELECT * FROM categoria_cuestionario WHERE id_categoria IN (SELECT id_padre FROM categoria_cuestionario) ORDER BY id_categoria");
+        $database->query("SELECT * FROM categoria_cuestionario WHERE id_categoria IN (SELECT id_padre FROM categoria_cuestionario WHERE activo='1') ORDER BY id_categoria");
         $rows = $database->resultset();
         $database->closeConnection();
 
@@ -18,7 +18,7 @@
         for ($x = 0; $x < count($rows); $x++)
         {
             $database = new Database();
-            $database->query("SELECT * FROM categoria_cuestionario WHERE id_padre =".$rows[$x]["id_categoria"]);
+            $database->query("SELECT * FROM categoria_cuestionario WHERE id_padre =".$rows[$x]["id_categoria"] . " AND activo='1'");
             $subCategoria = $database->resultset();
             $database->closeConnection();
             $rows[$x]["evaluaciones"] = $subCategoria;

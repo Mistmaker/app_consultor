@@ -22,12 +22,14 @@ try {
         $database->query('UPDATE categoria_cuestionario SET  
                             id_padre = :id_padre,
                             nombre = :nombre,
-                            cantidad_preguntas = :cantidad_preguntas
+                            cantidad_preguntas = :cantidad_preguntas,
+                            metodo_calificacion = :metodo_calificacion
                             WHERE id_categoria = :id');
         $database->bind(':id', $id);
         $database->bind(':id_padre', $request->id_padre);
         $database->bind(':nombre', $request->nombre);
         $database->bind(':cantidad_preguntas', $request->cantidad_preguntas);
+        $database->bind(':metodo_calificacion', $request->metodo_calificacion);
 
         $Hecho = $database->execute();
 
@@ -42,11 +44,13 @@ try {
             foreach ($request->preguntas as $pregunta) {
 
                 if( isset($pregunta->id_pregunta) ) { // Pregunta ya existente - update
-                    $database->query("UPDATE banco_preguntas SET id_categoria=:id_categoria, pregunta=:pregunta, activo=:activo, comentario=:comentario WHERE id_pregunta=:id_pregunta");
+                    $database->query("UPDATE banco_preguntas SET id_categoria=:id_categoria, pregunta=:pregunta, activo=:activo, comentario=:comentario, link_comentario=:link_comentario, texto_link_comentario=:texto_link_comentario WHERE id_pregunta=:id_pregunta");
                     $database->bind(':id_pregunta', $pregunta->id_pregunta);
                     $database->bind(':id_categoria', $pregunta->id_categoria);
                     $database->bind(':pregunta', $pregunta->pregunta);
                     $database->bind(':comentario', $pregunta->comentario);
+                    $database->bind(':link_comentario', $pregunta->link_comentario);
+                    $database->bind(':texto_link_comentario', $pregunta->texto_link_comentario);
                     $database->bind(':activo', $pregunta->activo);
                     $database->execute();
 
@@ -77,9 +81,12 @@ try {
 
                 }else { // pregunta no existente - insert
                     
-                    $database->query("INSERT INTO banco_preguntas (id_categoria, pregunta) VALUES (:id_categoria, :pregunta)");
+                    $database->query("INSERT INTO banco_preguntas (id_categoria, pregunta, comentario, link_comentario, texto_link_comentario) VALUES (:id_categoria, :pregunta, :comentario, :link_comentario, :texto_link_comentario)");
                     $database->bind(':id_categoria', $pregunta->id_categoria);
                     $database->bind(':pregunta', $pregunta->pregunta);
+                    $database->bind(':comentario', $pregunta->comentario);
+                    $database->bind(':link_comentario', $pregunta->link_comentario);
+                    $database->bind(':texto_link_comentario', $pregunta->texto_link_comentario);
                     $database->execute();
                     $pregunta->id_pregunta= $database->lastInsertId();
 
@@ -106,11 +113,12 @@ try {
     } else {
 
         $database = new Database();
-        $database->query("INSERT INTO categoria_cuestionario (id_padre, nombre, cantidad_preguntas) VALUES (:id_padre, :nombre, :cantidad_preguntas)");
+        $database->query("INSERT INTO categoria_cuestionario (id_padre, nombre, cantidad_preguntas, metodo_calificacion) VALUES (:id_padre, :nombre, :cantidad_preguntas, :metodo_calificacion)");
 
         $database->bind(':id_padre', $request->id_padre);
         $database->bind(':nombre', $request->nombre);
         $database->bind(':cantidad_preguntas', $request->cantidad_preguntas);
+        $database->bind(':metodo_calificacion', $request->metodo_calificacion);
 
         $Hecho = $database->execute();
 
@@ -122,9 +130,12 @@ try {
 
             foreach ($request->preguntas as $pregunta) {
                 $pregunta->id_categoria = $id;
-                $database->query("INSERT INTO banco_preguntas (id_categoria, pregunta) VALUES (:id_categoria, :pregunta)");
+                $database->query("INSERT INTO banco_preguntas (id_categoria, pregunta, comentario, link_comentario, texto_link_comentario) VALUES (:id_categoria, :pregunta, :comentario, :link_comentario, :texto_link_comentario)");
                 $database->bind(':id_categoria', $pregunta->id_categoria);
                 $database->bind(':pregunta', $pregunta->pregunta);
+                $database->bind(':comentario', $pregunta->comentario);
+                $database->bind(':link_comentario', $pregunta->link_comentario);
+                $database->bind(':texto_link_comentario', $pregunta->texto_link_comentario);
                 $database->execute();
                 $idPregunta = $database->lastInsertId();
 

@@ -150,6 +150,8 @@ try {
             $Hecho = $database->execute();
             $database->query("INSERT INTO menu_usuario VALUES (null,12," . $id . ",'1')");
             $Hecho = $database->execute();
+            $database->query("INSERT INTO menu_usuario VALUES (null,13," . $id . ",'1')");
+            $Hecho = $database->execute();
         }
 
         sleep(1);

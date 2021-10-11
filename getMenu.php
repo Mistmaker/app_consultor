@@ -20,7 +20,7 @@ $Id = htmlentities($_GET['id']);
 
 $database = new Database();
 
-$database->query('SELECT * FROM menu m left outer join menu_usuario mu on m.id = mu.id_menu WHERE mu.id_usuario = :id');
+$database->query('SELECT * FROM menu m left outer join menu_usuario mu on m.id = mu.id_menu WHERE mu.id_usuario = :id ORDER BY POSICION');
 $database->bind('id', $Id);
 $rows = $database->resultset();
 $database->closeConnection();
